@@ -1,0 +1,42 @@
+---
+- name: packet analysis of IEEE 1588-2008
+  hosts: control
+  connection: local
+
+  tasks:
+
+    - name: pipe tcpdump remote nodes
+      shell:
+        cmd: >
+          ssh root@10.10.0.15
+          "tcpdump -s 0 -Un -f not port 22 -w - -i enp0s8" |
+          wireshark -k -i - &
+      tags: [never, trace]
+
+- name: node1
+  hosts: 10.10.0.15
+  gather_facts: false
+
+  tasks:
+
+    - name: start ptp on {{ inventory_hostname }}
+      shell: "{{ start }}"
+      tags: [never, start-node1, start-all]
+
+    - name: stop ptp on {{ inventory_hostname }}
+      shell: "{{ stop }}"
+      tags: [never, stop-node1, stop-all]
+
+- name: node2
+  hosts: 10.10.0.16
+  gather_facts: false
+
+  tasks:
+
+    - name: start ptp on {{ inventory_hostname }}
+      shell: "{{ start }}"
+      tags: [never, start-node2, start-all]
+
+    - name: stop ptp on {{ inventory_hostname }}
+      shell: "{{ stop }}"
+      tags: [never, stop-node2, stop-all]

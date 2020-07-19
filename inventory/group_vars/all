@@ -1,0 +1,6 @@
+---
+ansible_user: root
+ansible_pass: admin
+
+start: systemctl start ptp4l
+stop: systemctl stop ptp4l
