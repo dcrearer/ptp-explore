@@ -2,6 +2,8 @@
 
 The repository contains a playbook that has tasks which enable exploration of PTP BMCA. Each task has tags to allow selective execution. 
 
+ansible-playbook site.yml --tags trace,stop-all
+
 tags:
 
   - trace:       invokes wireskark on the localhost to read tcpdump pipe from a VM
